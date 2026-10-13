@@ -14,16 +14,20 @@ import { APP_GUARD } from "@nestjs/core";
         ConfigModule.forRoot(),
         DatabaseModule,
         AuthModule.forRootAsync({
-          useFactory: (database: NodePgDatabase) => ({
+            useFactory: (database: NodePgDatabase) => ({
                 auth: betterAuth({
                     database: drizzleAdapter(database, {
                         provider: 'pg',
                     }),
+                    emailAndPassword: {
+                        enabled: true,
+                    },
+                    trustedOrigins: [
+                        process.env.BACKEND_PROT,
+                        process.env.BACKEND_PORT,
+                        process.env.FRONTEND_URL,
+                    ].filter(Boolean) as string[],
                 }),
-                emailAndPassword: {
-                    enabled: true,
-                },
-                trustedOrigins: [process.env.BACKEND_PROT],
             }),
             inject: [DATABASE_CONNECTION],
         }),

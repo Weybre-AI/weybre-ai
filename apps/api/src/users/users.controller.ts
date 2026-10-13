@@ -1,9 +1,11 @@
-import { Controller, Get } from "@nestjs/common"
-
-@Controller('user')
+import { Controller, Get, UseGuards } from "@nestjs/common"
+import { AuthGuard, Session } from "@thallesp/nestjs-better-auth"
+import type { UserSession } from "@thallesp/nestjs-better-auth"
+@Controller('users')
+@UseGuards(AuthGuard)
 export class UsersController {
     @Get('session')
-    getSession() {
-        return {}
+    async getSession(@Session() session: UserSession) {
+        return session
     }
 }

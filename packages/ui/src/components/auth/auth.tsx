@@ -4,6 +4,8 @@ import type { AuthView } from "@better-auth-ui/core"
 import { useAuth } from "@better-auth-ui/react"
 import { type ComponentType, useEffect } from "react"
 
+import type {} from "../../lib/auth/auth-plugin"
+import type {} from "./auth-provider"
 import { AuthRedirect } from "./auth-redirect"
 import { AuthCallback, AuthError } from "./auth-result"
 import { ForgotPassword } from "./forgot-password"

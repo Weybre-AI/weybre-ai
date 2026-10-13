@@ -1,29 +1,47 @@
 "use client";
 
-import { createContext, useContext, ReactNode } from "react";
-import { authClient } from "../lib/auth-client";
+import { AuthProvider as BetterAuthUIProvider } from "@workspace/ui/components/auth/auth-provider";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import React, { ComponentPropsWithoutRef, ComponentType, PropsWithChildren } from "react";
 
+const NextAuthLink: ComponentType<
+  PropsWithChildren<{
+    className?: string;
+    href?: string;
+    to?: string;
+  } & Pick<ComponentPropsWithoutRef<"a">, "aria-disabled" | "tabIndex" | "onClick">>
+> = ({ href, to, children, ...props }) => {
+  return (
+    <Link href={href ?? to ?? "#"} {...props}>
+      {children}
+    </Link>
+  );
+};
 
-interface AuthContextType {
-    session: { user?: { id: string; email: string, name: string }} | null;
-    isLoading: boolean;
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+
+  return (
+    <BetterAuthUIProvider
+      authClient={authClient}
+      Link={NextAuthLink as any}
+      navigate={({ to, replace }) => {
+        if (replace) {
+          router.replace(to);
+        } else {
+          router.push(to);
+        }
+      }}
+      redirectTo="/dashboard"
+    >
+      {children}
+    </BetterAuthUIProvider>
+  );
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export function AuthProvider({ children }: { children: ReactNode}) {
-    const { data: session, isPending: isLoading } = authClient.useSession();
-
-    return (
-        <AuthContext.Provider value={{ session, isLoading }}>
-            {children}
-        </AuthContext.Provider>
-    );
-}
 export function useAuth() {
-    const context = useContext(AuthContext);
-    if (context === undefined) {
-        throw new Error("useAuth must be used within an AuthProvider");
-    }
-    return context;
+  const { data: session, isPending: isLoading, error } = authClient.useSession();
+  return { session, isLoading, error };
 }

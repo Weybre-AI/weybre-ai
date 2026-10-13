@@ -9,6 +9,7 @@ import type {
   ReactNode
 } from "react"
 
+import type {} from "../../lib/auth/auth-plugin"
 import { ErrorToaster } from "./error-toaster"
 
 declare module "@better-auth-ui/core" {

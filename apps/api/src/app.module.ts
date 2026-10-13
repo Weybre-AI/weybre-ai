@@ -8,6 +8,8 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { DATABASE_CONNECTION } from "./database/database-connection";
 import { UserModule } from "./users/users.module";
 import { APP_GUARD } from "@nestjs/core";
+import * as authSchema from "./auth/schema";
+import { sendResetPasswordEmail } from "./auth/email";
 
 @Module({
     imports: [
@@ -18,14 +20,20 @@ import { APP_GUARD } from "@nestjs/core";
                 auth: betterAuth({
                     database: drizzleAdapter(database, {
                         provider: 'pg',
+                        schema: authSchema,
                     }),
                     emailAndPassword: {
                         enabled: true,
+                        sendResetPassword: async ({ user, url, token }) => {
+                            await sendResetPasswordEmail({ user, url, token });
+                        },
                     },
                     trustedOrigins: [
                         process.env.BACKEND_PROT,
                         process.env.BACKEND_PORT,
                         process.env.FRONTEND_URL,
+                        process.env.BETTER_AUTH_URL,
+                        "http://localhost:3000",
                     ].filter(Boolean) as string[],
                 }),
             }),

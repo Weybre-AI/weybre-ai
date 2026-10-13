@@ -1,55 +1,50 @@
 "use client"
+
 import { authClient } from "@/lib/auth-client"
-import { useState } from "react"
-import { Button } from "@workspace/ui/components/button"
-import { LoginForm, SignUpForm } from "@/components/auth-form"
-import { Sign } from "node:crypto"
+import { Auth } from "@workspace/ui/components/auth/auth"
+import { Button, buttonVariants } from "@workspace/ui/components/button"
+import Link from "next/link"
 
 export default function Page() {
   const { data: session, isPending: isLoading } = authClient.useSession()
-  const [activeForm, setActiveForm] = useState<"login" | "signup">("login");
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        Loading...
+        <p className="text-muted-foreground">Loading...</p>
       </div>
-    );
+    )
   }
+
   if (session) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-md max-auto text-center">
-          <h1 className="text-3x1 font-bold nb-4">Welcome!</h1>
-          <p className="mb-4">
-            You are signed in as: {session.user.name}
+      <div className="container mx-auto px-4 py-16">
+        <div className="max-w-md mx-auto text-center space-y-6">
+          <h1 className="text-3xl font-bold">Welcome back!</h1>
+          <p className="text-muted-foreground">
+            You are signed in as: <span className="font-medium text-foreground">{session.user.name || session.user.email}</span>
           </p>
-          <button
-            onClick={() => authClient.signOut()}
-            className="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700">
-
-            Sign Out
-          </button>
+          <div className="flex justify-center gap-4">
+            <Link href="/dashboard" className={buttonVariants()}>
+              Go to Dashboard
+            </Link>
+            <Button
+              variant="destructive"
+              onClick={() => authClient.signOut()}
+            >
+              Sign Out
+            </Button>
+          </div>
         </div>
       </div>
-    );
+    )
   }
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-center nb-8">
-        <div className="bg-gray-100 p-1 rounded-lg">
-          <button
-            onClick={() => setActiveForm("login")}
-            className={`px-4 py-2 rounded-md ${activeForm === "login" ? "bg-white shadow-sm" : "text-gray-600 hover:text-gray-800"}`}>
-            Sign In
-          </button>
-          <button
-            onClick={() => setActiveForm("signup")}
-            className={`px-4 py-2 rounded-md ${activeForm === "signup" ? "bg-white shadow-sm" : "text-gray-600 hover:text-gray-800"}`}>
-            Sign Up
-          </button>
-        </div>
+    <div className="flex min-h-screen items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        <Auth view="signIn" />
       </div>
-      {activeForm === "login" ? <LoginForm /> : <SignUpForm />}
     </div>
   )
 }

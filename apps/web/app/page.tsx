@@ -4,7 +4,14 @@ import { authClient } from "@/lib/auth-client"
 import { Auth } from "@workspace/ui/components/auth/auth"
 import { Button, buttonVariants } from "@workspace/ui/components/button"
 import Link from "next/link"
-
+import { Navbar } from "@workspace/ui/components/navbar1"
+import { Hero } from "@workspace/ui/components/hero115";
+import { Logos } from "@workspace/ui/components/logos18";
+import { Features } from "@workspace/ui/components/feature43";
+import { Testimonials } from "@workspace/ui/components/testimonial9";
+import { Pricing } from "@workspace/ui/components/pricing2";
+import { Cta } from "@workspace/ui/components/cta10";
+import { Footer } from "@workspace/ui/components/footer2";
 export default function Page() {
   const { data: session, isPending: isLoading } = authClient.useSession()
 
@@ -18,25 +25,16 @@ export default function Page() {
 
   if (session) {
     return (
-      <div className="container mx-auto px-4 py-16">
-        <div className="max-w-md mx-auto text-center space-y-6">
-          <h1 className="text-3xl font-bold">Welcome back!</h1>
-          <p className="text-muted-foreground">
-            You are signed in as: <span className="font-medium text-foreground">{session.user.name || session.user.email}</span>
-          </p>
-          <div className="flex justify-center gap-4">
-            <Link href="/dashboard" className={buttonVariants()}>
-              Go to Dashboard
-            </Link>
-            <Button
-              variant="destructive"
-              onClick={() => authClient.signOut()}
-            >
-              Sign Out
-            </Button>
-          </div>
-        </div>
-      </div>
+      <main className="flex w-full flex-col">
+        <Navbar />
+        <Hero />
+        <Logos />
+        <Features />
+        <Testimonials />
+        <Pricing />
+        <Cta />
+        <Footer />
+      </main>
     )
   }
 

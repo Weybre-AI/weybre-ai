@@ -4,6 +4,21 @@ import { useAuth } from "@/components/auth-provider"
 import { authClient } from "@/lib/auth-client"
 import { Button, buttonVariants } from "@workspace/ui/components/button"
 import Link from "next/link"
+import { AppSidebar } from "@workspace/ui/components/app-sidebar"
+import { NavActions } from "@workspace/ui/components/nav-actions"
+import { UserButton } from "@workspace/ui/components/auth/user/user-button"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+} from "@workspace/ui/components/breadcrumb"
+import { Separator } from "@workspace/ui/components/separator"
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@workspace/ui/components/sidebar"
 
 export default function Dashboard() {
   const { session, isLoading } = useAuth()
@@ -28,46 +43,32 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-4xl mx-auto space-y-8">
-        <div className="flex justify-between items-center border-b pb-4">
-          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-          <Button
-            variant="destructive"
-            onClick={() => authClient.signOut({
-              fetchOptions: {
-                onSuccess: () => {
-                  window.location.href = "/auth/sign-in"
-                }
-              }
-            })}
-          >
-            Sign Out
-          </Button>
-        </div>
-
-        <div className="rounded-xl border bg-card p-6 shadow-sm">
-          <h2 className="text-xl font-semibold mb-4">User Information</h2>
-          <div className="space-y-2 text-sm">
-            <p>
-              <strong className="text-muted-foreground">Email:</strong> {session.user?.email}
-            </p>
-            <p>
-              <strong className="text-muted-foreground">Name:</strong> {session.user?.name || "N/A"}
-            </p>
-            <p>
-              <strong className="text-muted-foreground">User ID:</strong> {session.user?.id}
-            </p>
-          </div>
-        </div>
-
-        <div className="rounded-xl border bg-card p-6 shadow-sm">
-          <h2 className="text-xl font-semibold mb-4">Protected Content</h2>
-          <p className="text-muted-foreground">
-            This is a protected dashboard page that only authenticated users can access.
-          </p>
-        </div>
-      </div>
-    </div>
+        <SidebarProvider>
+          <AppSidebar />
+          <SidebarInset>
+            <header className="flex h-14 shrink-0 items-center gap-2">
+              <div className="flex flex-1 items-center gap-2 px-3">
+                <SidebarTrigger />
+                <Separator
+                  orientation="vertical"
+                  className="mr-2 data-[orientation=vertical]:h-4"
+                />
+                <Breadcrumb>
+                  <BreadcrumbList>
+                    <BreadcrumbItem>
+                      <BreadcrumbPage className="line-clamp-1">
+                        Dashboard
+                      </BreadcrumbPage>
+                    </BreadcrumbItem>
+                  </BreadcrumbList>
+                </Breadcrumb>
+              </div>
+            </header>
+            <div className="flex flex-1 flex-col gap-4 px-4 py-10">
+              <div className="mx-auto h-24 w-full max-w-3xl rounded-xl bg-muted/50" />
+              <div className="mx-auto h-full w-full max-w-3xl rounded-xl bg-muted/50" />
+            </div>
+          </SidebarInset>
+        </SidebarProvider>
   )
 }

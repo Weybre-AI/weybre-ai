@@ -26,6 +26,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   return (
     <BetterAuthUIProvider
       authClient={authClient}
+      socialProviders={["google"]}
       Link={NextAuthLink as any}
       navigate={({ to, replace }) => {
         if (replace) {

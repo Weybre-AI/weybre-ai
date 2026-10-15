@@ -23,7 +23,7 @@ export async function sendResetPasswordEmail({
   }
 
   const resend = new Resend(apiKey);
-  const from = process.env.EMAIL_FROM || "Weybre AI <onboarding@resend.dev>";
+  const from = process.env.EMAIL_FROM || "Weybre AI <onboarding@weybre.com>";
   const displayName = user.name || "there";
 
   const html = `

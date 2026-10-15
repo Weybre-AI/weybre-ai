@@ -17,4 +17,21 @@ export const auth = betterAuth({
             await sendResetPasswordEmail({ user, url, token });
         },
     },
+    socialProviders: {
+        google: {
+            clientId: process.env.GOOGLE_CLIENT_ID || "",
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+        },
+    },
+    account: {
+        accountLinking: {
+            enabled: true,
+            trustedProviders: ["google"],
+            requireLocalEmailVerified: false,
+            updateUserInfoOnLink: true,
+        },
+    },
+    onAPIError: {
+        errorURL: `${process.env.FRONTEND_URL || "http://localhost:3000"}/auth/error`,
+    },
 });

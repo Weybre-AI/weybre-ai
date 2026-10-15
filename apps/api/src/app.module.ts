@@ -28,6 +28,23 @@ import { sendResetPasswordEmail } from "./auth/email";
                             await sendResetPasswordEmail({ user, url, token });
                         },
                     },
+                    socialProviders: {
+                        google: {
+                            clientId: process.env.GOOGLE_CLIENT_ID || "443016074545-l956oqi3lhbddehfps9bab9r3843du2e.apps.googleusercontent.com",
+                            clientSecret: process.env.GOOGLE_CLIENT_SECRET || "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",
+                        },
+                    },
+                    account: {
+                        accountLinking: {
+                            enabled: true,
+                            trustedProviders: ["google"],
+                            requireLocalEmailVerified: false,
+                            updateUserInfoOnLink: true,
+                        },
+                    },
+                    onAPIError: {
+                        errorURL: `${process.env.FRONTEND_URL || "http://localhost:3000"}/auth/error`,
+                    },
                     trustedOrigins: [
                         process.env.BACKEND_PROT,
                         process.env.BACKEND_PORT,

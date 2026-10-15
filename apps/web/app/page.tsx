@@ -15,23 +15,13 @@ import { Footer } from "@workspace/ui/components/footer2";
 
 export default function Page() {
   const router = useRouter();
-
-  const { data: session, isPending: isLoading } =
-    authClient.useSession();
+  const { data: session } = authClient.useSession();
 
   useEffect(() => {
-    if (!isLoading && session) {
+    if (session) {
       router.replace("/dashboard");
     }
-  }, [session, isLoading, router]);
-
-  if (isLoading || session) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <p className="text-muted-foreground">Loading...</p>
-      </div>
-    );
-  }
+  }, [session, router]);
 
   return (
     <main className="flex w-full flex-col">

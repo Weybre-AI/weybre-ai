@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import {
   Collapsible,
   CollapsibleContent,
@@ -28,6 +29,7 @@ export function NavWorkspaces({
     emoji: React.ReactNode
     pages: {
       name: string
+      url?: string
       emoji: React.ReactNode
     }[]
   }[]
@@ -40,7 +42,7 @@ export function NavWorkspaces({
           {workspaces.map((workspace) => (
             <Collapsible key={workspace.name}>
               <SidebarMenuItem>
-                <SidebarMenuButton render={<a href="#" />}>
+                <SidebarMenuButton render={<Link href="#" />}>
                   <span>{workspace.emoji}</span>
                   <span>{workspace.name}</span>
                 </SidebarMenuButton>
@@ -58,7 +60,7 @@ export function NavWorkspaces({
                   <SidebarMenuSub>
                     {workspace.pages.map((page) => (
                       <SidebarMenuSubItem key={page.name}>
-                        <SidebarMenuSubButton render={<a href="#" />}>
+                        <SidebarMenuSubButton render={<Link href={page.url || "#"} />}>
                           <span>{page.emoji}</span>
                           <span>{page.name}</span>
                         </SidebarMenuSubButton>

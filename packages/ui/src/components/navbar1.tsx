@@ -107,7 +107,7 @@ const CUT =
 const Navbar = ({
   logo = DEFAULT_LOGO,
   menu = DEFAULT_MENU,
-  secondary = { title: "Sign in", url: "#" },
+  secondary = { title: "Sign in", url: "auth/sign-in" },
   action = { title: "Request access", url: "#" },
   className,
 }: NavbarProps) => {

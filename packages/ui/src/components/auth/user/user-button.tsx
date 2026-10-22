@@ -200,7 +200,7 @@ export function UserButton({
               <DropdownMenuItem
                 onClick={() =>
                   navigate({
-                    to: `${basePaths.settings}/${viewPaths.settings.account}`
+                    to: `/settings`
                   })
                 }
               >

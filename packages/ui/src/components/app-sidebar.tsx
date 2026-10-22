@@ -6,6 +6,7 @@ import { NavFavorites } from "@workspace/ui/components/nav-favorites"
 import { NavMain } from "@workspace/ui/components/nav-main"
 import { NavSecondary } from "@workspace/ui/components/nav-secondary"
 import { NavWorkspaces } from "@workspace/ui/components/nav-workspaces"
+import { NavRecents } from "@workspace/ui/components/nav-recents"
 import { TeamSwitcher } from "@workspace/ui/components/team-switcher"
 import { UserButton } from "@workspace/ui/components/auth/user/user-button"
 
@@ -45,30 +46,30 @@ const data = {
   ],
   navMain: [
     {
-      title: "Search",
-      url: "#",
-      icon: (
-        <HugeiconsIcon icon={SearchIcon} strokeWidth={2} />
-      ),
-    },
-    {
-      title: "Ask AI",
-      url: "#",
-      icon: (
-        <HugeiconsIcon icon={SparklesIcon} strokeWidth={2} />
-      ),
-    },
-    {
       title: "Home",
-      url: "#",
+      url: "/dashboard",
       icon: (
         <HugeiconsIcon icon={HomeIcon} strokeWidth={2} />
       ),
       isActive: true,
     },
     {
+      title: "AI Ask",
+      url: "/aiask",
+      icon: (
+        <HugeiconsIcon icon={SparklesIcon} strokeWidth={2} />
+      ),
+    },
+    {
+      title: "Search",
+      url: "/search",
+      icon: (
+        <HugeiconsIcon icon={SearchIcon} strokeWidth={2} />
+      ),
+    },
+    {
       title: "Inbox",
-      url: "#",
+      url: "/inbox",
       icon: (
         <HugeiconsIcon icon={InboxIcon} strokeWidth={2} />
       ),
@@ -77,36 +78,8 @@ const data = {
   ],
   navSecondary: [
     {
-      title: "Calendar",
-      url: "#",
-      icon: (
-        <HugeiconsIcon icon={CalendarIcon} strokeWidth={2} />
-      ),
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: (
-        <HugeiconsIcon icon={Settings05Icon} strokeWidth={2} />
-      ),
-    },
-    {
-      title: "Templates",
-      url: "#",
-      icon: (
-        <HugeiconsIcon icon={CubeIcon} strokeWidth={2} />
-      ),
-    },
-    {
-      title: "Trash",
-      url: "#",
-      icon: (
-        <HugeiconsIcon icon={Delete02Icon} strokeWidth={2} />
-      ),
-    },
-    {
       title: "Help",
-      url: "#",
+      url: "/help",
       icon: (
         <HugeiconsIcon icon={MessageQuestionIcon} strokeWidth={2} />
       ),
@@ -229,8 +202,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarHeader>
       <SidebarContent>
-        <NavWorkspaces workspaces={data.workspaces} />
+        <NavRecents />
       </SidebarContent>
+      <NavMain items={data.navSecondary} />
       <SidebarRail />
       <UserButton />
     </Sidebar>

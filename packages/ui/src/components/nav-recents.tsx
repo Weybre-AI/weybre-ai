@@ -11,6 +11,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuAction,
   useSidebar,
 } from "@workspace/ui/components/sidebar"
 import {
@@ -71,12 +72,12 @@ export function NavRecents() {
         <SidebarMenu>
           {/* Example Recent Conversation */}
           <SidebarMenuItem>
-            <SidebarMenuButton className="group/recent">
+            <SidebarMenuButton render={<a href="#" />}>
               <span className="truncate">Explain quantum computing</span>
-              <button className="ml-auto opacity-0 group-hover/recent:opacity-100 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground p-1 rounded-sm transition-opacity">
-                <MoreHorizontal className="h-3.5 w-3.5" />
-              </button>
             </SidebarMenuButton>
+            <SidebarMenuAction showOnHover>
+              <MoreHorizontal />
+            </SidebarMenuAction>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarGroupContent>
